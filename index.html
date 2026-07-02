@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>My Free Sheet App</title>
+    <style>
+        body { font-family: Arial, sans-serif; max-width: 600px; margin: 40px auto; padding: 20px; line-height: 1.6; }
+        button { background: #007bff; color: white; border: none; padding: 10px 20px; font-size: 16px; cursor: pointer; border-radius: 5px; }
+        button:hover { background: #0056b3; }
+        #output { background: #f4f4f4; padding: 15px; margin-top: 20px; border-radius: 5px; white-space: pre-wrap; font-family: monospace; }
+    </style>
+</head>
+<body>
+
+    <h1>Sheet App Interface</h1>
+    <button onclick="loadData()">Fetch My Data</button>
+    <div id="output">Your spreadsheet data will display here...</div>
+
+    <script>
+        // PASTE YOUR BRAND NEW GOOGLE URL BETWEEN THE QUOTES BELOW
+        const webAppUrl = "https://script.google.com/macros/s/AKfycbxmCy4azqSyYPUnpJcrTLQwVmRsOiK4h3xVcxX0FZ1QmhXpFBia-W_vKF0-4uMHEQHB/exec";
+
+        function loadData() {
+            const outputDiv = document.getElementById('output');
+            outputDiv.innerText = "Connecting directly to Google Sheets...";
+
+            fetch(webAppUrl)
+                .then(response => {
+                    if (!response.ok) throw new Error("Server rejected request: " + response.status);
+                    return response.json();
+                })
+                .then(data => {
+                    // This outputs your actual spreadsheet data onto the screen
+                    outputDiv.innerText = JSON.stringify(data, null, 2);
+                })
+                .catch(error => {
+                    outputDiv.innerText = "Error loading data: " + error.message;
+                    console.error("Detailed Error:", error);
+                });
+        }
+    </script>
+
+</body>
+</html>
+
