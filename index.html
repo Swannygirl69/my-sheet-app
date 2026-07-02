@@ -18,30 +18,34 @@
     <div id="output">Your spreadsheet data will display here...</div>
 
     <script>
-        // PASTE YOUR BRAND NEW GOOGLE URL BETWEEN THE QUOTES BELOW
+        // PASTE YOUR ACTUAL GOOGLE URL BETWEEN THE QUOTES BELOW
         const webAppUrl = "https://script.google.com/macros/s/AKfycbxmCy4azqSyYPUnpJcrTLQwVmRsOiK4h3xVcxX0FZ1QmhXpFBia-W_vKF0-4uMHEQHB/exec";
 
         function loadData() {
             const outputDiv = document.getElementById('output');
-            outputDiv.innerText = "Connecting directly to Google Sheets...";
+            outputDiv.innerText = "Bypassing security and connecting...";
 
-            fetch(webAppUrl)
-                .then(response => {
-                    if (!response.ok) throw new Error("Server rejected request: " + response.status);
-                    return response.json();
-                })
-                .then(data => {
-                    // This outputs your actual spreadsheet data onto the screen
-                    outputDiv.innerText = JSON.stringify(data, null, 2);
-                })
-                .catch(error => {
-                    outputDiv.innerText = "Error loading data: " + error.message;
-                    console.error("Detailed Error:", error);
-                });
+            // We must use a POST method with 'text/plain' content to force the browser to skip the CORS pre-flight block
+            fetch(webAppUrl, {
+                method: "POST",
+                headers: {
+                    "Content-Type": "text/plain;charset=utf-8"
+                },
+                body: JSON.stringify({ action: "readData" })
+            })
+            .then(response => {
+                if (!response.ok) throw new Error("Server rejected request: " + response.status);
+                return response.json();
+            })
+            .then(data => {
+                outputDiv.innerText = JSON.stringify(data, null, 2);
+            })
+            .catch(error => {
+                outputDiv.innerText = "Error loading data: " + error.message;
+                console.error("Detailed Error:", error);
+            });
         }
     </script>
 
 </body>
 </html>
-
- 
