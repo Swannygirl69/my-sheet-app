@@ -19,39 +19,32 @@
 
     <script>
         // PASTE YOUR ACTUAL GOOGLE URL BETWEEN THE QUOTES BELOW
-        const webAppUrl = "https://script.google.com/macros/s/AKfycbxNk3VYjyFW0jOYC-w3fr3IK1Qkh-Cz_Gz1WsVLXlnEgO59wqI1tyuG_OTXdhXdb0Rt/exec";
+        const webAppUrl = "https://script.google.com/macros/s/AKfycbyRtcNXDmSLwzTXyjV9ZzQ3qD6G_6POHupk88UPnw6qZN24q05aWSszXumpeU5u5XK_/exec";
 
         function loadData() {
             const outputDiv = document.getElementById('output');
             outputDiv.innerText = "Bypassing security and connecting...";
 
-           function loadData() {
-    const outputDiv = document.getElementById('output');
-    outputDiv.innerText = "Bypassing security and connecting...";
-
-    // Adding redirect: "follow" tells the browser to track Google's secure storage vaults
-    fetch(webAppUrl, {
-        method: "POST",
-        headers: {
-            "Content-Type": "text/plain;charset=utf-8"
-        },
-        body: JSON.stringify({ action: "readData" }),
-        redirect: "follow" 
-    })
-    .then(response => {
-        if (!response.ok) throw new Error("Server rejected request: " + response.status);
-        return response.json();
-    })
-    .then(data => {
-        // SUCCESS: Output your spreadsheet rows onto the page
-        outputDiv.innerText = JSON.stringify(data, null, 2);
-    })
-    .catch(error => {
-        outputDiv.innerText = "Error loading data: " + error.message;
-        console.error("Detailed Error:", error);
-    });
-}
-
+            fetch(webAppUrl, {
+                method: "POST",
+                headers: {
+                    "Content-Type": "text/plain;charset=utf-8"
+                },
+                body: JSON.stringify({ action: "readData" }),
+                redirect: "follow"
+            })
+            .then(response => {
+                if (!response.ok) throw new Error("Server rejected request: " + response.status);
+                return response.json();
+            })
+            .then(data => {
+                outputDiv.innerText = JSON.stringify(data, null, 2);
+            })
+            .catch(error => {
+                outputDiv.innerText = "Error loading data: " + error.message;
+                console.error("Detailed Error:", error);
+            });
+        }
     </script>
 
 </body>
